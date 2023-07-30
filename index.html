@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  <style>
+    
+    body {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center mb-4">Expense Tracker</h1>
+    
+
+    <div class="card mb-4">
+      <div class="card-header">Add Expense</div>
+      <div class="card-body">
+        <form id="expenseForm">
+          <div class="form-group">
+            <label for="expenseName">Expense Name:</label>
+            <input type="text" class="form-control" id="expenseName" required>
+          </div>
+          <div class="form-group">
+            <label for="expenseAmount">Expense Amount:</label>
+            <input type="number" class="form-control" id="expenseAmount" required>
+          </div>
+          <div class="form-group">
+            <label for="expenseCategory">Expense Category:</label>
+            <select class="form-control" id="expenseCategory">
+              <option value="petrol">Petrol</option>
+              <option value="shopping">Shopping</option>
+              <option value="food">Food</option>
+              <option value="movie">Movie</option>
+              <option value="education">Education</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Expense</button>
+        </form>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-header">Expense List</div>
+      <div class="card-body">
+        <ul id="expenseList" class="list-group">
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.9/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+  <!-- Custom JavaScript -->
+  <script>
+
+    document.getElementById("expenseForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      
+    
+      const expenseName = document.getElementById("expenseName").value;
+      const expenseAmount = parseFloat(document.getElementById("expenseAmount").value);
+      const expenseCategory = document.getElementById("expenseCategory").value;
+      
+      
+      document.getElementById("expenseName").value = "";
+      document.getElementById("expenseAmount").value = "";
+      
+      
+      const expenseData = {
+        name: expenseName,
+        amount: expenseAmount,
+        category: expenseCategory
+      };
+      
+      let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+      expenses.push(expenseData);
+      localStorage.setItem("expenses", JSON.stringify(expenses));
+      
+      
+      displayExpenses();
+    });
+    
+    
+    function displayExpenses() {
+      const expenseList = document.getElementById("expenseList");
+      const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+      
+    
+      expenseList.innerHTML = "";
+      
+    
+      expenses.forEach((expense, index) => {
+        const listItem = document.createElement("li");
+        listItem.className = "list-group-item";
+        listItem.innerHTML = `
+          <strong>${expense.name}</strong>: $${expense.amount.toFixed(2)} (Category: ${expense.category})
+          <button class="btn btn-sm btn-danger float-right mx-1" onclick="deleteExpense(${index})">Delete</button>
+          <button class="btn btn-sm btn-primary float-right" onclick="editExpense(${index})">Edit</button>
+        `;
+        expenseList.appendChild(listItem);
+      });
+    }
+    
+
+    function deleteExpense(index) {
+      let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+      expenses.splice(index, 1);
+      localStorage.setItem("expenses", JSON.stringify(expenses));
+      displayExpenses();
+    }
+
+    // Function to edit an expense
+    function editExpense(index) {
+      let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+      const expense = expenses[index];
+
+      document.getElementById("expenseName").value = expense.name;
+      document.getElementById("expenseAmount").value = expense.amount;
+      document.getElementById("expenseCategory").value = expense.category;
+
+
+      expenses.splice(index, 1);
+      localStorage.setItem("expenses", JSON.stringify(expenses));
+      displayExpenses();
+    }
+    
+    displayExpenses();
+  </script>
+</body>
+</html>
