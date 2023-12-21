@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="payment.css" />
+    <style>
+      /* Add your styles here */
+    </style>
+    <title>Razorpay</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="index.html" name="Home">Home</a></li>
+          <li><a href="expenses.html" name>Expenses</a></li>
+          <li><a href="payment.html">Premium</a></li>
+          <!-- Add more navigation items as needed -->
+        </ul>
+      </nav>
+    </header>
+    <h1>Welcome to the Premium World</h1>
+    <br /><br />
+    <h5>
+      IF YOU LIKE TO SEE WHO IS MAKING MORE EXPENSES AND THEIR EXPENSE TYPES AND
+      DATE ON IT
+      <span style="display: block; margin-top: 10px">U HAVE TO PAY FOR IT</span>
+    </h5>
+    <button id="rzp-button1">Pay Now to See Who Is More Expenser</button>
+    <br /><br />
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+      document.getElementById("rzp-button1").onclick = async function (e) {
+        e.preventDefault();
+        try {
+          let response = await fetch("http://localhost:8007/payments", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              amount: 500,
+            }),
+          });
+
+          let orderData = await response.json();
+
+          var options = {
+            key: "rzp_test_1JkcUwOTeWJBhb",
+            amount: "500",
+            currency: "INR",
+            order_id: orderData.order.id,
+            handler: function (response) {
+              alert("This is the payment id: " + response.razorpay_payment_id);
+              window.location.href = "leaderboard.html";
+            },
+          };
+          var rzp1 = new Razorpay(options);
+          rzp1.open();
+        } catch (error) {
+          console.error("Error in fetch:", error);
+        }
+      };
+    </script>
+  </body>
+</html>

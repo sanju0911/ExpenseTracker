@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Signup</title>
+    <style>
+      .signup-form {
+        max-width: 300px;
+        margin: 0 auto;
+      }
+
+      .signup-form input {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+      }
+
+      .signup-form button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Signup</h1>
+    <form class="signup-form" id="signup-form">
+      <input
+        type="text"
+        name="name"
+        placeholder="Name"
+        required
+        class="name-input"
+      /><br />
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        required
+        class="email-input"
+      /><br />
+      <input
+        type="tel"
+        name="phone"
+        placeholder="Phone"
+        required
+        class="phone-input"
+      /><br />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+        class="password-input"
+      /><br />
+      <button type="button" id="submit-btn">Signup</button>
+    </form>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const submitButton = document.getElementById("submit-btn");
+
+        submitButton.onclick = function () {
+          const nameInput = document.querySelector(".name-input");
+          const emailInput = document.querySelector(".email-input");
+          const phoneInput = document.querySelector(".phone-input");
+          const passwordInput = document.querySelector(".password-input");
+
+          const name = nameInput.value;
+          const email = emailInput.value;
+          const phone = phoneInput.value;
+          const password = passwordInput.value;
+
+          nameInput.value = "";
+          emailInput.value = "";
+          phoneInput.value = "";
+          passwordInput.value = "";
+
+          fetch("http://localhost:8007/users/insert", {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify({
+              name: name,
+              email: email,
+              phone: phone,
+              password: password,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                alert("Signup successful!");
+              } else {
+                alert("already exist please login with another email"); // Display the error message
+              }
+            });
+        };
+      });
+    </script>
+  </body>
+</html>

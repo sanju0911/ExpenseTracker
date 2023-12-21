@@ -1,0 +1,139 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Basic styling for body and main container */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    background-color: #fff;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+header {
+    background-color: #9baaba; /* Choose your desired background color */
+    padding: 10px;
+    text-align: center;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav li {
+    display: inline;
+    margin: 0 10px;
+  }
+  
+  nav a {
+    text-decoration: none;
+    color: #fff; /* Text color */
+    font-weight: bold;
+    font-size: 18px;
+  }
+/* Style labels */
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Style text inputs */
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+/* Style buttons */
+button {
+    padding: 10px 20px;
+    background-color: #2a3949;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Style the search input and button */
+#search-input {
+    width: 70%;
+}
+
+/* Style the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #33bce2;
+    color: #fff;
+}
+/* Style the update section */
+#update-row {
+    background-color: #f5f5f5;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  
+    
+}
+
+#update-row label {
+    width: 100%; /* Ensure labels take the full width of the container */
+    margin-bottom: 5px;
+}
+
+#update-row input[type="text"],
+#update-row input[type="number"] {
+    width: 48%; /* Set the width of input fields as needed */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+#update-row button {
+    width: 100%; /* Make the button take the full width of the container */
+}
+
+
+/* Add hover styles for delete and edit buttons */
+#table tbody tr:hover .delete-button {
+    background-color: #FF0000;
+}
+
+#table tbody tr:hover .edit-button {
+    background-color: #8ab4e1;
+}

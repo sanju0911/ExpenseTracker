@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="stylesheet.css" />
+    <title>Expense Tracker</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="index.html" name="Home">Home</a></li>
+          <li><a href="expenses.html" name>Expenses</a></li>
+          <li><a href="payment.html">Premium</a></li>
+          <!-- Add more navigation items as needed -->
+        </ul>
+      </nav>
+    </header>
+    <h1>The Most Expenses Makers</h1>
+    <main>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Expense Name</th>
+            <th>Amount</th>
+            <th>Date Added</th>
+            <th>Action</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Table content will be dynamically populated here -->
+        </tbody>
+      </table>
+    </main>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        fetchDataAndLoadTable();
+
+        const tableBody = document.querySelector("table tbody");
+
+        function fetchDataAndLoadTable() {
+          fetch("http://localhost:8007/getExpenses")
+            .then((response) => response.json())
+            .then((data) => loadHTMLTable(data["data"]));
+        }
+        function loadHTMLTable(data) {
+          const table = document.querySelector("table tbody");
+
+          if (data.length === 0) {
+            table.innerHTML =
+              "<tr><td class='no-data' colspan='7'>No Data</td></tr>";
+            return;
+          }
+
+          // Sort the data array by amount in descending order
+          const sortedData = data.sort((a, b) => b.amount - a.amount);
+
+          // Get the top 10 entries from the sorted data array
+          const topTenEntries = sortedData.slice(0, 10);
+
+          let tableHtml = "";
+          // Iterate through the top 10 entries
+          topTenEntries.forEach(
+            ({ id, username, expensename, amount, date_add }) => {
+              tableHtml += "<tr>";
+              tableHtml += `<td>${id}</td>`;
+              tableHtml += `<td>${username}</td>`;
+              tableHtml += `<td>${expensename}</td>`;
+              tableHtml += `<td>${amount}</td>`;
+              tableHtml += `<td>${new Date(date_add).toLocaleString()}</td>`;
+              tableHtml += `<td><button class="delete-row-btn" data-id=${id}>Delete</td>`;
+              tableHtml += `<td><button class="edit-row-btn" data-id=${id}>Edit</td>`;
+              tableHtml += "</tr>";
+            }
+          );
+
+          table.innerHTML = tableHtml;
+        }
+
+        tableBody.addEventListener("click", function (event) {
+          if (event.target.className === "delete-row-btn") {
+            deleteRowById(event.target.dataset.id);
+          }
+          if (event.target.className === "edit-row-btn") {
+            handleEditRow(event.target.dataset.id);
+          }
+        });
+
+        function deleteRowById(id) {
+          fetch(`http://localhost:8007/delete/${id}`, {
+            method: "DELETE",
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                location.reload();
+              }
+            })
+            .catch((error) => {
+              console.error("Error deleting row:", error);
+            });
+        }
+
+        function handleEditRow(id) {
+          const updateSection = document.querySelector("#update-row");
+          updateSection.hidden = false;
+          document.querySelector("#update-name-input").dataset.id = id;
+        }
+      });
+    </script>
+  </body>
+</html>
