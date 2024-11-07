@@ -1,12 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const path = require("path"); // Import the path module
+const path = require("path"); 
 const userRoutes = require("./routes/userRoutes");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connection = require("./db");
 const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer"); // Import your database connection
+const nodemailer = require("nodemailer");
 const authRoutes = require("./routes/authRoutes");
 const expenseRoutes = require("./routes/expenseRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
@@ -22,10 +22,10 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.set("view engine", "ejs");
 
-// Serve static files (like HTML views)
-app.use(express.static("views")); // Assuming your HTML files are in the "views" folder
 
-// Define your routes
+// app.use(express.static("views")); 
+
+
 app.use("/users", userRoutes);
 app.use("/", authRoutes);
 app.use("/", expenseRoutes);
