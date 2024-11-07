@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: "janardhansanjay143@gmail.com", // Enter your email address
-    pass: "zicm tpqx ckgr ubjg", // Enter your email password
+    pass: "zicm tpqx ckgr ubjg",
   },
 });
 router.get("/", (req, res) => {

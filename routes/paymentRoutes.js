@@ -14,7 +14,7 @@ router.post("/payments", async (req, res) => {
   try {
     const { amount } = req.body;
 
-    // Validate the amount (you may want to add more validation based on your requirements)
+    
     if (!amount || isNaN(amount)) {
       return res.status(400).json({ success: false, error: "Invalid amount" });
     }
